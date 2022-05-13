@@ -17,5 +17,4 @@ class IndexResourceTest : ServerTest() {
             .contentType(ContentType.HTML)
             .body(not(blankOrNullString()))
     }
-
 }

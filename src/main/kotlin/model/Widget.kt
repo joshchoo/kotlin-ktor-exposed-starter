@@ -13,15 +13,15 @@ object Widgets : Table() {
 
 @Serializable
 data class Widget(
-        val id: Int,
-        val name: String,
-        val quantity: Int,
-        val dateUpdated: Long
+    val id: Int,
+    val name: String,
+    val quantity: Int,
+    val dateUpdated: Long
 )
 
 @Serializable
 data class NewWidget(
-        val id: Int?,
-        val name: String,
-        val quantity: Int
+    val id: Int?,
+    val name: String,
+    val quantity: Int
 )

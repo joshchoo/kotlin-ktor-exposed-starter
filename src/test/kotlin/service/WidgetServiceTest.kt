@@ -10,7 +10,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class WidgetServiceTest: ServerTest() {
+class WidgetServiceTest : ServerTest() {
 
     private val widgetService = WidgetService()
 
@@ -101,7 +101,6 @@ class WidgetServiceTest: ServerTest() {
         assertThat(result).isTrue()
         assertThat(widgetService.getWidget(saved.id)).isNull()
         assertThat(widgetService.getAllWidgets()).isEmpty()
-        Unit
     }
 
     @Nested
@@ -141,7 +140,7 @@ class WidgetServiceTest: ServerTest() {
             }
 
             widgetService.addChangeListener(123, func)
-            widgetService.updateWidget(updated.copy(id=saved.id))
+            widgetService.updateWidget(updated.copy(id = saved.id))
             assertThat(called).isTrue()
             Unit
         }
@@ -178,7 +177,6 @@ class WidgetServiceTest: ServerTest() {
             assertThat(called).isFalse()
             Unit
         }
-
     }
 
     @Nested

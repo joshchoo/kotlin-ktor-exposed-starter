@@ -7,7 +7,7 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class V1__create_widgets: BaseJavaMigration() {
+class V1__create_widgets : BaseJavaMigration() {
     override fun migrate(context: Context?) {
         transaction {
             SchemaUtils.create(Widgets)

@@ -1,10 +1,16 @@
 package web
 
 import common.ServerTest
-import io.ktor.client.*
-import io.ktor.client.plugins.websocket.*
-import io.ktor.websocket.*
-import io.restassured.RestAssured.*
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.websocket.WebSockets
+import io.ktor.client.plugins.websocket.webSocket
+import io.ktor.websocket.CloseReason
+import io.ktor.websocket.Frame
+import io.ktor.websocket.close
+import io.ktor.websocket.readText
+import io.restassured.RestAssured.delete
+import io.restassured.RestAssured.get
+import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -19,7 +25,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import util.JsonMapper.defaultMapper
 
-class WidgetResourceTest: ServerTest() {
+class WidgetResourceTest : ServerTest() {
 
     @Test
     fun testCreateWidget() {
@@ -69,9 +75,9 @@ class WidgetResourceTest: ServerTest() {
             .bodyJson(update)
             .When()
             .put("/widgets")
-                .then()
-                .statusCode(200)
-                .extract().to<Widget>()
+            .then()
+            .statusCode(200)
+            .extract().to<Widget>()
 
         assertThat(updated).isNotNull
         assertThat(updated.id).isEqualTo(update.id)
@@ -87,12 +93,12 @@ class WidgetResourceTest: ServerTest() {
 
         // then
         delete("/widgets/{id}", created.id)
-                .then()
-                .statusCode(200)
+            .then()
+            .statusCode(200)
 
         get("/widgets/{id}", created.id)
-                .then()
-                .statusCode(404)
+            .then()
+            .statusCode(404)
     }
 
     @Nested
@@ -106,24 +112,23 @@ class WidgetResourceTest: ServerTest() {
                 .bodyJson(updatedWidget)
                 .When()
                 .put("/widgets")
-                    .then()
-                    .statusCode(404)
+                .then()
+                .statusCode(404)
         }
 
         @Test
         fun testDeleteInvalidWidget() {
             delete("/widgets/{id}", "-1")
-                    .then()
-                    .statusCode(404)
+                .then()
+                .statusCode(404)
         }
 
         @Test
         fun testGetInvalidWidget() {
             get("/widgets/{id}", "-1")
-                    .then()
-                    .statusCode(404)
+                .then()
+                .statusCode(404)
         }
-
     }
 
     @Nested
@@ -179,9 +184,8 @@ class WidgetResourceTest: ServerTest() {
             .bodyJson(widget)
             .When()
             .post("/widgets")
-                .then()
-                .statusCode(201)
-                .extract().to()
+            .then()
+            .statusCode(201)
+            .extract().to()
     }
-
 }

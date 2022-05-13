@@ -1,7 +1,17 @@
 package service
 
-import model.*
-import org.jetbrains.exposed.sql.*
+import model.ChangeType
+import model.NewWidget
+import model.Notification
+import model.Widget
+import model.WidgetNotification
+import model.Widgets
+import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.update
 import service.DatabaseFactory.dbQuery
 
 class WidgetService {
@@ -52,11 +62,13 @@ class WidgetService {
     suspend fun addWidget(widget: NewWidget): Widget {
         var key = 0
         dbQuery {
-            key = (Widgets.insert {
-                it[name] = widget.name
-                it[quantity] = widget.quantity
-                it[dateUpdated] = System.currentTimeMillis()
-            } get Widgets.id)
+            key = (
+                Widgets.insert {
+                    it[name] = widget.name
+                    it[quantity] = widget.quantity
+                    it[dateUpdated] = System.currentTimeMillis()
+                } get Widgets.id
+                )
         }
         return getWidget(key)!!.also {
             onChange(ChangeType.CREATE, key, it)

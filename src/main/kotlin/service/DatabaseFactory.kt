@@ -50,5 +50,4 @@ object DatabaseFactory {
         block: suspend () -> T
     ): T =
         newSuspendedTransaction(Dispatchers.IO) { block() }
-
 }
